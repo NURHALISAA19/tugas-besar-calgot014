@@ -1,0 +1,480 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>EduPath - Temukan Jurusan & Kariermu</title>
+    <link rel="stylesheet" href="style.css" />
+    <style>
+        /* Reset & Base */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            line-height: 1.6;
+            background-color: #f9f9f9;
+            color: #333;
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #ffffff;
+            padding: 1rem 2rem;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+            position: fixed;
+            /* ini yang dipakai agar navbar tetap di atas saat scroll */
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1000;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #2b68e0;
+        }
+
+        .nav-links {
+            list-style: none;
+            display: flex;
+            gap: 1.5rem;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: #333;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: #2b68e0;
+        }
+
+        .cta-btn {
+            background-color: #2b68e0;
+            color: white !important;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+        }
+
+        .cta-btn:hover {
+            background-color: #1e4db8;
+            transform: scale(1.05);
+        }
+
+        /* Hamburger */
+        .hamburger {
+            display: none;
+            background: none;
+            font-size: 1.5rem;
+            border: none;
+            cursor: pointer;
+            color: #2b68e0;
+        }
+
+        /* Responsive Navbar */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+                flex-direction: column;
+                background-color: white;
+                position: absolute;
+                top: 70px;
+                right: 20px;
+                padding: 1rem 2rem;
+                border-radius: 8px;
+                box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            }
+
+            .nav-links.active {
+                display: flex;
+            }
+
+            .hamburger {
+                display: block;
+            }
+        }
+
+        /* Hero (Home Only) */
+        .hero {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 4rem 2rem;
+            flex-wrap: wrap;
+            background: #eaf1ff;
+        }
+
+        .hero-content {
+            flex: 1;
+            max-width: 500px;
+
+        }
+
+        .hero-content h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            color: #2b68e0;
+
+        }
+
+        .hero-content p {
+            margin-bottom: 1.5rem;
+        }
+
+        .btn-primary {
+            background-color: #2b68e0;
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border-radius: 10px;
+            text-decoration: none;
+        }
+
+        .btn-primary:hover {
+            background-color: #1e4db8;
+            transform: scale(1.05);
+        }
+
+        .hero-image {
+            flex: 1;
+            text-align: center;
+            padding-top: 2rem;
+        }
+
+        .hero-image img {
+            max-width: 100%;
+            height: auto;
+        }
+
+        /* About Page */
+        .about-section {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: space-between;
+            padding: 4rem 2rem;
+            background-color: #ffffff;
+        }
+
+        .about-text {
+            flex: 1;
+            min-width: 300px;
+            padding: 1rem;
+        }
+
+        .about-text h1 {
+            color: #2b68e0;
+            font-size: 2.2rem;
+            margin-bottom: 1rem;
+        }
+
+        .about-text p {
+            line-height: 1.8;
+        }
+
+        .about-image {
+            flex: 1;
+            text-align: center;
+            padding: 1rem;
+        }
+
+        .about-image img {
+            max-width: 100%;
+            height: auto;
+        }
+
+        /* Visi & Misi */
+        .vision-mission {
+            background-color: #eaf1ff;
+            padding: 3rem 2rem;
+            text-align: center;
+        }
+
+        .vision-mission h2 {
+            color: #2b68e0;
+            margin-bottom: 2rem;
+        }
+
+        .cards {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 2rem;
+            justify-content: center;
+        }
+
+        .card {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+            width: 300px;
+        }
+
+        .card h3 {
+            color: #2b68e0;
+            margin-bottom: 1rem;
+        }
+
+        /* Footer */
+        footer {
+            background-color: #f1f1f1;
+            text-align: center;
+            padding: 1.5rem;
+            font-size: 0.9rem;
+            color: #555;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+
+            .hero,
+            .about-section {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .cards {
+                flex-direction: column;
+                align-items: center;
+            }
+        }
+
+
+        /* About Preview */
+        .about-preview {
+            text-align: center;
+            padding: 3rem 2rem;
+            background-color: #ffffff;
+        }
+
+        .about-preview h2 {
+            font-size: 2rem;
+            color: #2b68e0;
+            margin-bottom: 1rem;
+        }
+
+        .about-preview p {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .btn-secondary {
+            display: inline-block;
+            margin-top: 1rem;
+            padding: 0.6rem 1.2rem;
+            background-color: transparent;
+            border: 2px solid #2b68e0;
+            border-radius: 8px;
+            color: #2b68e0;
+        }
+
+        .btn-secondary:hover {
+            background-color: #2b68e0;
+            color: white;
+        }
+
+        /* Statistik EduPath */
+        .stats-section {
+            background: #eaf1ff;
+            padding: 3rem 2rem;
+            text-align: center;
+        }
+
+        .stats-section h2 {
+            color: #2b68e0;
+            margin-bottom: 2rem;
+        }
+
+        .stats-section .card {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+            width: 300px;
+            text-align: center;
+        }
+
+        .stats-section .card h3 {
+            font-size: 2rem;
+            color: #2b68e0;
+            margin-bottom: 0.5rem;
+        }
+
+        .stats-section .card p {
+            color: #555;
+        }
+
+        /* Testimoni */
+        .testimoni {
+            background: #fff;
+            padding: 3rem 2rem;
+            text-align: center;
+        }
+
+        .testimoni h2 {
+            color: #2b68e0;
+            margin-bottom: 2rem;
+        }
+
+        .testimoni .card {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+            max-width: 300px;
+            text-align: center;
+        }
+
+        .testimoni .card p {
+            font-style: italic;
+            margin-bottom: 1rem;
+            color: #333;
+        }
+
+        .testimoni .card strong {
+            color: #2b68e0;
+        }
+    </style>
+
+</head>
+
+<body>
+
+    <!-- Navbar -->
+    <header>
+        <nav class="navbar">
+            <div class="logo">EduPath</div>
+            <button class="hamburger" onclick="toggleMenu()">☰</button>
+            <ul class="nav-links" id="navMenu">
+                <li><a href="index.html">Beranda</a></li>
+                <li><a href="about.html">Tentang</a></li>
+                <li><a href="services.html">Layanan</a></li>
+                <li><a href="why-us.html">Kenapa Kami</a></li>
+                <li><a href="news-education.html">Berita & Edukasi</a></li>
+                <li><a href="contact.html">Kontak</a></li>
+                <li><a href="order.html" class="cta-btn">Pesan Layanan</a></li>
+            </ul>
+        </nav>
+    </header>
+
+
+    <!-- Hero Section -->
+    <section class="hero">
+
+        <div class="hero-content">
+            <h1>Bingung Pilih Jurusan atau Karier?</h1>
+            <p>Kami bantu kamu temukan potensi dan jalur terbaik untuk masa depanmu melalui tes minat, konsultasi, dan
+                edukasi karier.</p>
+            <a href="order.html" class="btn-primary">Mulai Sekarang</a>
+        </div>
+        <div class="hero-image">
+            <img src="img/undraw_online-learning_tgmv.png" alt="Ilustrasi Edukasi" width="500px" />
+        </div>
+
+    </section>
+
+    <!-- About Preview -->
+    <section class="about-preview">
+        <h2>Kenali Dirimu, Temukan Jalanmu</h2>
+        <p>EduPath hadir untuk membantu generasi muda memahami potensi diri dan mengambil keputusan masa depan dengan
+            percaya diri.</p>
+        <a href="about.html" class="btn-secondary">Pelajari Lebih Lanjut</a>
+    </section>
+
+    <!-- Statistik EduPath -->
+    <section class="stats-section">
+        <h2>Mengapa EduPath Dipercaya?</h2>
+        <div style="display:flex;justify-content:center;gap:2rem;flex-wrap:wrap;">
+            <div class="card">
+                <h3><span class="counter" data-target="10000">0</span>+</h3>
+                <p>Pelajar terbantu memilih jurusan</p>
+            </div>
+            <div class="card">
+                <h3><span class="counter" data-target="95">0</span>%</h3>
+                <p>Merasa lebih percaya diri dengan pilihannya</p>
+            </div>
+            <div class="card">
+                <h3><span class="counter" data-target="100">0</span>+</h3>
+                <p>Sekolah & lembaga yang bermitra</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimoni -->
+    <section class="testimoni">
+        <h2>Apa Kata Mereka?</h2>
+        <div style="display:flex;gap:2rem;justify-content:center;flex-wrap:wrap;">
+            <div class="card">
+                <p>"EduPath bantu saya lebih yakin memilih jurusan!"</p>
+                <strong>- Rina, Siswa SMA</strong>
+            </div>
+            <div class="card">
+                <p>"Tesnya mudah dipahami dan hasilnya sangat membantu."</p>
+                <strong>- Budi, Guru BK</strong>
+            </div>
+        </div>
+    </section>
+
+
+
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <p>&copy; 2025 EduPath. Semua Hak Dilindungi.</p>
+        </div>
+    </footer>
+    <script>
+        function toggleMenu() {
+            const nav = document.getElementById("navMenu");
+            nav.classList.toggle("active");
+        }
+
+        // Fungsi Count-Up saat elemen muncul
+        const counters = document.querySelectorAll('.counter');
+        let started = false;
+
+        function runCounters() {
+            if (started) return;
+            counters.forEach(counter => {
+                const updateCount = () => {
+                    const target = +counter.getAttribute('data-target');
+                    const count = +counter.innerText;
+                    const speed = target / 100; // semakin kecil semakin cepat
+
+                    if (count < target) {
+                        counter.innerText = Math.ceil(count + speed);
+                        setTimeout(updateCount, 20);
+                    } else {
+                        counter.innerText = target;
+                    }
+                };
+                updateCount();
+            });
+            started = false;
+        }
+
+        // Jalankan saat elemen muncul di layar
+        window.addEventListener('scroll', () => {
+            const statsSection = document.querySelector('.stats-section');
+            const sectionTop = statsSection.getBoundingClientRect().top;
+            const windowHeight = window.innerHeight;
+
+            if (sectionTop < windowHeight - 100) {
+                runCounters();
+            }
+        });
+    </script>
+
+
+</body>
+
+</html>
